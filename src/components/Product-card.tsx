@@ -3,17 +3,25 @@ import {useState} from "react";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {Delete} from "@mui/icons-material";
+import {useAppDispatch} from "../store/store.ts";
+import {addFavoriteProduct} from "../store/productsSlice.ts";
 
 type ProductCardProps = {
+    id: number;
     title: string;
     description: string;
     image: string;
     price: number;
+    isFavorite: boolean;
 }
 
 const ProductCard = (props: ProductCardProps) => {
-    const [isFavorite, setIsFavorite] = useState(false);
-    const {title, description, image, price} = props;
+    // const [isFavorite, setIsFavorite] = useState(false);
+    const {id, title, description, image, price, isFavorite} = props;
+    const dispatch = useAppDispatch();
+    const setFavorite=()=>{
+        dispatch(addFavoriteProduct(id))
+    }
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardHeader
@@ -37,7 +45,7 @@ const ProductCard = (props: ProductCardProps) => {
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
+                <IconButton aria-label="add to favorites" onClick={setFavorite}>
                     {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
 
                 </IconButton>
