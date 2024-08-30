@@ -5,7 +5,7 @@ import {Product} from "../models/model.ts";
 interface ProductState {
     products: Product[],
     favoriteProducts: number[],
-    selectedProduct: number|null
+    selectedProduct: Product|null
 }
 
 const initialState: ProductState = {

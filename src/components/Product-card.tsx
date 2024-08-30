@@ -1,47 +1,55 @@
 import { Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography} from "@mui/material";
-import {useState} from "react";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {Delete} from "@mui/icons-material";
 import {useAppDispatch} from "../store/store.ts";
-import {addFavoriteProduct} from "../store/productsSlice.ts";
+import {addFavoriteProduct, deleteProduct, selectProduct} from "../store/productsSlice.ts";
+import {useNavigate} from "react-router-dom";
+import {Product} from "../models/model.ts";
 
-type ProductCardProps = {
-    id: number;
-    title: string;
-    description: string;
-    image: string;
-    price: number;
+
+interface PropsType{
+    product: Product;
     isFavorite: boolean;
 }
 
-const ProductCard = (props: ProductCardProps) => {
+const ProductCard = (props: PropsType) => {
     // const [isFavorite, setIsFavorite] = useState(false);
-    const {id, title, description, image, price, isFavorite} = props;
+    const {product, isFavorite} = props;
     const dispatch = useAppDispatch();
     const setFavorite=()=>{
-        dispatch(addFavoriteProduct(id))
+        dispatch(addFavoriteProduct(product.id))
     }
+    const deleteProductHandler = () => {
+        dispatch(deleteProduct(product.id))
+    }
+    const navigate = useNavigate();
+    const selectProductHandler = () => {
+        // console.log(id);
+        dispatch(selectProduct(product));
+        navigate(`/product/${product.id}`)
+    }
+
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{cursor: 'pointer', width:'100%', maxWidth: 345 }} onClick={selectProductHandler}>
             <CardHeader
 
-                title={title}
+                title={product.title}
                 // subheader="September 14, 2016"
             />
             <CardMedia
                 component="img"
                 height="194"
-                image={image}
-                alt={title}
+                image={product.image}
+                alt={product.title}
                 sx={{objectFit: 'contain'}}
             />
             <CardContent>
+                {/*<Typography variant="body2" sx={{ color: 'text.secondary' }}>*/}
+                {/*    {description}*/}
+                {/*</Typography>*/}
                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    {description}
-                </Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    Price: ${price}
+                    Price: ${product.price}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
@@ -49,7 +57,7 @@ const ProductCard = (props: ProductCardProps) => {
                     {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
 
                 </IconButton>
-                <IconButton aria-label="delete" >
+                <IconButton aria-label="delete" onClick={deleteProductHandler}>
                     <Delete />
                 </IconButton>
 

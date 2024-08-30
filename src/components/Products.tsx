@@ -1,9 +1,10 @@
 import {Box,  Grid2} from "@mui/material";
 import ProductCard from "./Product-card.tsx";
 import {useEffect, useState} from "react";
-import {Product} from "../models/model.ts";
+
 import {useAppDispatch, useAppSelector} from "../store/store.ts";
-import {setProducts} from "../store/productsSlice.ts";
+import { setProducts} from "../store/productsSlice.ts";
+
 
 
 const Products = () => {
@@ -35,13 +36,20 @@ const Products = () => {
        }
        fetchData();
    }, [])
+
+    // const navigate = useNavigate();
+    // const selectProductHandler = (id:number) => {
+    //     console.log(id);
+    //     dispatch(selectProduct(id));
+    //     navigate(`/product/${id}`)
+    // }
     return (
         <Box sx={{ flexGrow: 1 }}>
             {loading ? <h1>Loading...</h1> : error ? <h1>{error}</h1> : null}
             <Grid2 container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
 
-                {products.map((product, index) => (
-                   <ProductCard id={product.id} isFavorite={favoriteProducts.includes(product.id)} title={product.title} description={product.description} image={product.image} price={product.price} key={{index}}/>
+                {products.map((product) => (
+                   <ProductCard   isFavorite={favoriteProducts.includes(product.id)} product={product}  key={product.id}/>
                 ))}
             </Grid2>
         </Box>
