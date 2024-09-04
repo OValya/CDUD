@@ -29,13 +29,16 @@ const productsSlice = createSlice({
         },
         selectProduct: (state, action) => {
             state.selectedProduct = action.payload
+        },
+        addProduct: (state, action) => {
+            state.products.push(action.payload)
         }
     }
 });
 
 
 
-export const {setProducts, selectProduct, deleteProduct, addFavoriteProduct} = productsSlice.actions;
+export const {addProduct,setProducts, selectProduct, deleteProduct, addFavoriteProduct} = productsSlice.actions;
 
 export default productsSlice.reducer
 

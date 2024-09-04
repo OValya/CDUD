@@ -11,7 +11,7 @@ import ProductPage from "./pages/Product-page.tsx";
 
 const router = createBrowserRouter([
     {
-        path: "/",
+        path: "/products",
         element: <App/>
     },
     {
